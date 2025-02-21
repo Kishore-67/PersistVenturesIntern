@@ -1,39 +1,44 @@
-import { Box, Button, FormControl, FormLabel, Input, VStack, Heading, Text, Link } from '@chakra-ui/react'
-import { Link as RouterLink } from 'react-router-dom'
+import { Box, Button, FormControl, FormLabel, Input, VStack, Heading, useToast } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Always navigate to dashboard
+    navigate('/dashboard');
+    toast({
+      title: "Welcome back!",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+  };
+
   return (
-    <Box maxW="container.sm" mx="auto" pt={8}>
-      <VStack spacing={8} align="stretch">
-        <Heading textAlign="center">Welcome Back</Heading>
-        
-        <form>
+    <Box maxW="md" mx="auto" mt={8} p={6} borderRadius="lg" boxShadow="lg" bg="white">
+      <VStack spacing={4}>
+        <Heading size="lg">Sign In</Heading>
+        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
           <VStack spacing={4}>
             <FormControl>
-              <FormLabel>Username</FormLabel>
-              <Input type="text" />
+              <FormLabel>Email</FormLabel>
+              <Input type="email" placeholder="Enter your email" />
             </FormControl>
-            
             <FormControl>
               <FormLabel>Password</FormLabel>
-              <Input type="password" />
+              <Input type="password" placeholder="Enter your password" />
             </FormControl>
-            
             <Button type="submit" colorScheme="blue" width="full">
-              Login
+              Sign In
             </Button>
           </VStack>
         </form>
-        
-        <Text textAlign="center">
-          Don't have an account?{' '}
-          <Link as={RouterLink} to="/register" color="blue.500">
-            Register here
-          </Link>
-        </Text>
       </VStack>
     </Box>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

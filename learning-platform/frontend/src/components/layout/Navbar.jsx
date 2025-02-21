@@ -37,8 +37,6 @@ const NavLink = ({ children, to }) => (
 
 const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // This would normally come from your auth state
-  const isAuthenticated = false;
 
   return (
     <Box bg={useColorModeValue('white', 'gray.900')} px={4} shadow="sm">
@@ -71,80 +69,41 @@ const Navbar = () => {
           </RouterLink>
           
           <HStack as="nav" spacing={4} display={{ base: 'none', md: 'flex' }}>
-            {isAuthenticated ? (
-              <>
-                <NavLink to="/dashboard">Dashboard</NavLink>
-                <NavLink to="/challenges">Challenges</NavLink>
-              </>
-            ) : (
-              <>
-                <NavLink to="/challenges">Browse Challenges</NavLink>
-                <NavLink to="/about">About</NavLink>
-              </>
-            )}
+            <NavLink to="/dashboard">Dashboard</NavLink>
+            <NavLink to="/challenges">Challenges</NavLink>
+            <NavLink to="/about">About</NavLink>
           </HStack>
         </HStack>
 
-        <Flex alignItems="center">
-          {isAuthenticated ? (
-            <Menu>
-              <MenuButton
-                as={Button}
-                rounded="full"
-                variant="link"
-                cursor="pointer"
-                minW={0}
-              >
-                <Avatar size="sm" />
-              </MenuButton>
-              <MenuList>
-                <MenuItem as={RouterLink} to="/profile">Profile</MenuItem>
-                <MenuItem as={RouterLink} to="/settings">Settings</MenuItem>
-                <MenuDivider />
-                <MenuItem>Sign Out</MenuItem>
-              </MenuList>
-            </Menu>
-          ) : (
-            <HStack spacing={4}>
-              <Button
-                as={RouterLink}
-                to="/login"
-                variant="ghost"
-                size="sm"
-              >
-                Sign In
-              </Button>
-              <Button
-                as={RouterLink}
-                to="/register"
-                colorScheme="blue"
-                size="sm"
-              >
-                Sign Up
-              </Button>
-            </HStack>
-          )}
-        </Flex>
+        <HStack spacing={4}>
+          <Button
+            as={RouterLink}
+            to="/login"
+            variant="ghost"
+            size="sm"
+          >
+            Sign In
+          </Button>
+          <Button
+            as={RouterLink}
+            to="/register"
+            colorScheme="blue"
+            size="sm"
+          >
+            Sign Up
+          </Button>
+        </HStack>
       </Flex>
 
       {/* Mobile menu */}
       {isOpen && (
         <Box pb={4} display={{ md: 'none' }}>
           <Stack as="nav" spacing={4}>
-            {isAuthenticated ? (
-              <>
-                <NavLink to="/dashboard">Dashboard</NavLink>
-                <NavLink to="/challenges">Challenges</NavLink>
-                <NavLink to="/profile">Profile</NavLink>
-              </>
-            ) : (
-              <>
-                <NavLink to="/challenges">Browse Challenges</NavLink>
-                <NavLink to="/about">About</NavLink>
-                <NavLink to="/login">Sign In</NavLink>
-                <NavLink to="/register">Sign Up</NavLink>
-              </>
-            )}
+            <NavLink to="/dashboard">Dashboard</NavLink>
+            <NavLink to="/challenges">Challenges</NavLink>
+            <NavLink to="/about">About</NavLink>
+            <NavLink to="/login">Sign In</NavLink>
+            <NavLink to="/register">Sign Up</NavLink>
           </Stack>
         </Box>
       )}

@@ -1,49 +1,48 @@
-import { Box, Button, FormControl, FormLabel, Input, VStack, Heading, Text, Link } from '@chakra-ui/react'
-import { Link as RouterLink } from 'react-router-dom'
+import { Box, Button, FormControl, FormLabel, Input, VStack, Heading, useToast } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Always navigate to dashboard
+    navigate('/dashboard');
+    toast({
+      title: "Account created successfully!",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+  };
+
   return (
-    <Box maxW="container.sm" mx="auto" pt={8}>
-      <VStack spacing={8} align="stretch">
-        <Heading textAlign="center">Create Account</Heading>
-        
-        <form>
+    <Box maxW="md" mx="auto" mt={8} p={6} borderRadius="lg" boxShadow="lg" bg="white">
+      <VStack spacing={4}>
+        <Heading size="lg">Create Account</Heading>
+        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
           <VStack spacing={4}>
             <FormControl>
-              <FormLabel>Username</FormLabel>
-              <Input type="text" />
+              <FormLabel>Name</FormLabel>
+              <Input placeholder="Enter your name" />
             </FormControl>
-            
             <FormControl>
               <FormLabel>Email</FormLabel>
-              <Input type="email" />
+              <Input type="email" placeholder="Enter your email" />
             </FormControl>
-            
             <FormControl>
               <FormLabel>Password</FormLabel>
-              <Input type="password" />
+              <Input type="password" placeholder="Enter your password" />
             </FormControl>
-            
-            <FormControl>
-              <FormLabel>Confirm Password</FormLabel>
-              <Input type="password" />
-            </FormControl>
-            
             <Button type="submit" colorScheme="blue" width="full">
-              Register
+              Sign Up
             </Button>
           </VStack>
         </form>
-        
-        <Text textAlign="center">
-          Already have an account?{' '}
-          <Link as={RouterLink} to="/login" color="blue.500">
-            Login here
-          </Link>
-        </Text>
       </VStack>
     </Box>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

@@ -1,10 +1,9 @@
-import { Box, Badge, Text, Heading, VStack, HStack, Progress, Icon, Button, useToast } from '@chakra-ui/react';
-import { FaCode, FaClock, FaTrophy } from 'react-icons/fa';
+import { Box, Badge, Text, Button } from '@chakra-ui/react';
+import { FaTrophy } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-const ChallengeCard = ({ challenge, isAuthenticated = false }) => {
+const ChallengeCard = ({ challenge }) => {
   const navigate = useNavigate();
-  const toast = useToast();
 
   const getDifficultyColor = (difficulty) => {
     const colors = {
@@ -16,92 +15,60 @@ const ChallengeCard = ({ challenge, isAuthenticated = false }) => {
   };
 
   const handleStartChallenge = () => {
-    if (!isAuthenticated) {
-      toast({
-        title: "Login Required",
-        description: "Please login to attempt this challenge",
-        status: "info",
-        duration: 3000,
-        isClosable: true,
-      });
-      navigate('/login');
-      return;
-    }
-    // Handle starting the challenge
-    console.log('Starting challenge:', challenge.id);
+    // Directly navigate to the challenge
+    navigate(`/challenges/${challenge.id}`);
   };
 
   return (
     <Box
+      maxW="sm"
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
-      p={6}
       bg="white"
-      _hover={{
-        transform: 'translateY(-2px)',
-        boxShadow: 'lg',
-        transition: 'all 0.2s'
-      }}
+      transition="transform 0.2s"
+      _hover={{ transform: 'translateY(-4px)', shadow: 'lg' }}
     >
-      <VStack align="stretch" spacing={4}>
-        <HStack justify="space-between">
-          <Badge 
-            colorScheme={getDifficultyColor(challenge.difficulty)}
-            px={2}
-            py={1}
-            borderRadius="full"
-          >
+      <Box p="6">
+        <Box display="flex" alignItems="baseline">
+          <Badge borderRadius="full" px="2" colorScheme={getDifficultyColor(challenge.difficulty)}>
             {challenge.difficulty}
           </Badge>
-          <HStack>
-            <Icon as={FaTrophy} color="yellow.400" />
-            <Text fontWeight="bold">{challenge.points} pts</Text>
-          </HStack>
-        </HStack>
+          <Box
+            color="gray.500"
+            fontWeight="semibold"
+            letterSpacing="wide"
+            fontSize="xs"
+            textTransform="uppercase"
+            ml="2"
+          >
+            {challenge.points} points
+          </Box>
+        </Box>
 
-        <Heading size="md" noOfLines={2}>
+        <Box
+          mt="1"
+          fontWeight="semibold"
+          as="h4"
+          lineHeight="tight"
+          noOfLines={1}
+        >
           {challenge.title}
-        </Heading>
+        </Box>
 
-        <Text color="gray.600" noOfLines={3}>
+        <Text mt={2} color="gray.600" fontSize="sm" noOfLines={2}>
           {challenge.description}
         </Text>
 
-        <HStack spacing={4} color="gray.500">
-          <HStack>
-            <Icon as={FaCode} />
-            <Text fontSize="sm">{challenge.language}</Text>
-          </HStack>
-          <HStack>
-            <Icon as={FaClock} />
-            <Text fontSize="sm">{challenge.estimatedTime} min</Text>
-          </HStack>
-        </HStack>
-
-        <Box>
-          <Text fontSize="sm" mb={1}>Completion Rate</Text>
-          <Progress 
-            value={challenge.completionRate} 
-            size="sm" 
-            colorScheme={getDifficultyColor(challenge.difficulty)}
-            borderRadius="full"
-          />
-        </Box>
-
         <Button
+          mt={4}
           colorScheme="blue"
-          size="md"
           width="full"
           onClick={handleStartChallenge}
-          _hover={{
-            transform: 'translateY(-1px)',
-            boxShadow: 'sm',
-          }}
         >
-          {isAuthenticated ? 'Start Challenge' : 'Login to Attempt'}
+          Start Challenge
         </Button>
-      </VStack>
+      </Box>
     </Box>
   );
 };
